@@ -1,0 +1,113 @@
+﻿@model TrabajadoresPrueba.Models.DB.Trabajadores
+
+<div class="modal fade" id="modalCrear">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">Creación de Trabajador</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form action="Trabajador/Crear">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <div class="form-row">
+                                <label>Tipo Documento</label>
+                                <select asp-for="TipoDocumento" class="form-control">
+                                    <option value="">--Seleccione--</option>
+                                    <option value="DNI">DNI</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>Número Documento</label>
+                                <input asp-for="NroDocumento" class="form-control" placeholder="Número de Documento" />
+                                <span asp-validation-for="NroDocumento" class="text-danger"></span>
+                            </div>
+                            <div class="form-row">
+                                <label>Nombres</label>
+                                <input asp-for="Nombres" class="form-control" placeholder="Nombres" />
+                                <span asp-validation-for="Nombres" class="text-danger"></span>
+                            </div>
+                            <div class="form-row">
+                                <label>Sexo</label>
+                                <select asp-for="Sexo" class="form-control">
+                                    <option value="">--Seleccione--</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>Departamento</label>
+                                <select asp-for="IdDepartamento" asp-items="@ViewBag.Departamentos" class="form-control">
+                                    <option value="">--Seleccione--</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>Provincia</label>
+                                <select asp-for="IdProvincia" class="form-control">
+                                    <option value="">--Cargando--</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <label>Distrito</label>
+                                <select asp-for="IdDistrito" class="form-control">
+                                    <option value="">--Cargando--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-save="modal">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#IdDepartamento").change(function () {
+            $('#IdProvincia').empty();
+            $('#IdDistrito').empty();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("CargarProvincia")',
+                dataType: 'json',
+                data: { id: $('#IdDepartamento').val() },
+                success: function (provincias) {
+                    $("#IdProvincia").append('<option value="">--Seleccione--</option>');
+                    $.each(provincias, function (i, provincia) {
+                        $("#IdProvincia").append('<option value="' + provincia.value + '">' + provincia.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Error al cargar provincias. ' + ex);
+                }
+            });
+            return false;
+        })
+
+        $("#IdProvincia").change(function () {
+            $('#IdDistrito').empty();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("CargarDistrito")',
+                dataType: 'json',
+                data: { id: $('#IdProvincia').val() },
+                success: function (distritos) {
+                    $("#IdDistrito").append('<option value="">--Seleccione--</option>');
+                    $.each(distritos, function (i, distrito) {
+                        $("#IdDistrito").append('<option value="' + distrito.value + '">' + distrito.text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Error al cargar distritos. ' + ex);
+                }
+            });
+            return false;
+        })
+    })
+
+</script>

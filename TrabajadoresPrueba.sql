@@ -4316,3 +4316,12 @@ select * from Trabajadores
 select * from Departamento
 select * from Provincia
 select * from Distrito
+go
+
+CREATE PROC SP_LISTAR_TRABAJADORES
+AS
+	select t.Id, t.TipoDocumento, t.NroDocumento, t.Nombres, t.Sexo, de.NombreDepartamento, p.NombreProvincia, di.NombreDistrito from Trabajadores t
+	inner join Departamento de on t.IdDepartamento = de.Id
+	inner join Provincia p on t.IdProvincia = p.Id
+	inner join Distrito di on t.IdDistrito=di.Id
+GO
