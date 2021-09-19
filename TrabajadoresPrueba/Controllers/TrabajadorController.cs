@@ -75,7 +75,7 @@ namespace TrabajadoresPrueba.Controllers
             return lista;
         }
 
-        //Vistas
+        //Vista Principal
         public IActionResult Index()
         {
            List<Trabajador> lista = (List<Trabajador>)listaTrabajadores();
@@ -133,6 +133,7 @@ namespace TrabajadoresPrueba.Controllers
             return PartialView("Editar", trabajador);
         }
 
+        //Eliminacion de los trabajadores 
         public IActionResult Eliminar(int id)
         {
             Trabajadores trabajador = new Trabajadores();

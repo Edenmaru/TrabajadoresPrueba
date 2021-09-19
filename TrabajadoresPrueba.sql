@@ -132,56 +132,7 @@ INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (24, N'Tumbes')
 GO
 INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (25, N'Ucayali')
 GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (26, N'Amazonas')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (27, N'Áncash')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (28, N'Apurímac')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (29, N'Arequipa')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (30, N'Ayacucho')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (31, N'Cajamarca')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (32, N'Callao')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (33, N'Cusco')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (34, N'Huancavelica')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (35, N'Huánuco')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (36, N'Ica')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (37, N'Junín')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (38, N'La Libertad')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (39, N'Lambayeque')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (40, N'Lima')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (41, N'Loreto')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (42, N'Madre de Dios')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (43, N'Moquegua')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (44, N'Pasco')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (45, N'Piura')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (46, N'Puno')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (47, N'San Martín')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (48, N'Tacna')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (49, N'Tumbes')
-GO
-INSERT [dbo].[Departamento] ([Id], [NombreDepartamento]) VALUES (50, N'Ucayali')
-GO
+
 SET IDENTITY_INSERT [dbo].[Departamento] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Distrito] ON 
@@ -4312,12 +4263,7 @@ ALTER TABLE [dbo].[Trabajadores]  WITH CHECK ADD FOREIGN KEY([IdProvincia])
 REFERENCES [dbo].[Provincia] ([Id])
 GO
 
-select * from Trabajadores
-select * from Departamento
-select * from Provincia
-select * from Distrito
-go
-
+--------------------------Creacion de Procedure Lista de trabajadores
 CREATE PROC SP_LISTAR_TRABAJADORES
 AS
 	select t.Id, t.TipoDocumento, t.NroDocumento, t.Nombres, t.Sexo, de.NombreDepartamento, p.NombreProvincia, di.NombreDistrito from Trabajadores t
@@ -4325,3 +4271,13 @@ AS
 	inner join Provincia p on t.IdProvincia = p.Id
 	inner join Distrito di on t.IdDistrito=di.Id
 GO
+
+
+--------------------------Insercion de trabajador de ejemplo
+insert into trabajadores(TipoDocumento,NroDocumento,Nombres,Sexo,IdDepartamento,IdProvincia,IdDistrito)
+values ('DNI',12345678,'Eduardo','M',1,1,1857)
+go
+
+------------------------Prueba de procedure
+exec SP_LISTAR_TRABAJADORES
+go
