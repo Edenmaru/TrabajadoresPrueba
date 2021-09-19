@@ -82,29 +82,81 @@ namespace TrabajadoresPrueba.Controllers
            return View(lista);
         }
 
+        //Vista Parcial (Modal)
+        //Creacion de trabajadores
         [HttpGet]
         public IActionResult Crear()
         {
-            Trabajadores t = new Trabajadores();        
+            Trabajadores trabajador = new Trabajadores();        
             ViewBag.Departamentos = new SelectList(listaDepartamentos(), "Id", "NombreDepartamento");
-            return PartialView("Crear", t);
+            return PartialView("Crear", trabajador);
         }
 
-        [HttpPost]public IActionResult Crear(Trabajadores trabajadores)
+        [HttpPost]public IActionResult Crear(Trabajadores trabajador)
         {
+            ViewBag.Departamentos = new SelectList(listaDepartamentos(), "Id", "NombreDepartamento");
             using (var db = new TrabajadoresPruebaContext())
             {
                 if (ModelState.IsValid)
                 {
-                    db.Trabajadores.Add(trabajadores);
+                    db.Trabajadores.Add(trabajador);
                     db.SaveChanges();      
                 }
                 
             }
-            return PartialView("Crear", trabajadores);
+            return PartialView("Crear", trabajador);
 
         }
 
+        //Edicion de la información de trabajadores
+        public IActionResult Editar(int id)
+        {
+            Trabajadores trabajador = new Trabajadores();
+            ViewBag.Departamentos = new SelectList(listaDepartamentos(), "Id", "NombreDepartamento");
+            using ( var db = new TrabajadoresPruebaContext())
+            {
+                trabajador = db.Trabajadores.Where(x => x.Id == id).FirstOrDefault();
+            }
+            return PartialView("Editar", trabajador);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(Trabajadores trabajador)
+        {
+            ViewBag.Departamentos = new SelectList(listaDepartamentos(), "Id", "NombreDepartamento");
+            using (var db = new TrabajadoresPruebaContext())
+            {
+                db.Trabajadores.Update(trabajador);
+                db.SaveChanges();
+            }
+
+            return PartialView("Editar", trabajador);
+        }
+
+        public IActionResult Eliminar(int id)
+        {
+            Trabajadores trabajador = new Trabajadores();
+            using(var db = new TrabajadoresPruebaContext())
+            {
+                trabajador = db.Trabajadores.Where(x => x.Id == id).FirstOrDefault();
+            }
+            return PartialView("Eliminar",trabajador);
+        }
+
+        [HttpPost]
+        public IActionResult Eliminar (Trabajadores trabajador)
+        {
+            Trabajadores t = new Trabajadores();
+            using (var db = new TrabajadoresPruebaContext())
+            {
+                t = db.Trabajadores.Where(x => x.Id == trabajador.Id).FirstOrDefault();
+                db.Trabajadores.Remove(t);
+                db.SaveChanges();
+            }
+            return PartialView("Eliminar",t);
+        }
+
+        //JSON para llenar los dropdown de Provincia y Distrito segun Departamento y Provincia respectivamente
         public JsonResult CargarProvincia(int id)
         {
             var provincia = listaProvincias().Where(x => x.IdDepartamento == id).ToList();
