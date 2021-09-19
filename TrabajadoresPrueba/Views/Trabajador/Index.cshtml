@@ -1,0 +1,89 @@
+﻿@model IEnumerable<TrabajadoresPrueba.Models.Trabajador>
+
+@{
+    ViewData["Title"] = "Listado de Trabajadores";
+}
+
+<h1>Listado de Trabajadores</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <a class="btn btn-success" asp-action="Crear" asp-controller="Trabajador">Nuevo Registro</a>
+        </div>
+    </div>
+    
+    <div class="row">
+        @if (Model.Count() > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TipoDocumento)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NroDocumento)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombres)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Sexo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.nombreDepartamento)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.nombreProvincia)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.nombreDistrito)
+                        </th>
+                        <th>
+                            Acción
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TipoDocumento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NroDocumento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombres)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Sexo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nombreDepartamento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nombreProvincia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.nombreDistrito)
+                            </td>
+                            <td>
+                               <a asp-controller="Trabajador" asp-action="Editar" asp-route-id="@item.Id" class="btn btn-warning">Editar</a> |
+                               <a asp-controller="Trabajador" asp-action="Eliminar" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No hay registros de trabajadores</p>
+        }
+
+    </div>
+    
+
+</div>
