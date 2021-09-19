@@ -10,25 +10,27 @@ namespace TrabajadoresPrueba.Models.DB
     {
         public int Id { get; set; }
         [Display(Name = "Tipo Documento")]
-        [Required(ErrorMessage = "Obligatorio")]
+        [Required(AllowEmptyStrings =false ,ErrorMessage = "Obligatorio")]
         public string TipoDocumento { get; set; }
         [Display(Name = "Nro Documento")]
-        [Required(ErrorMessage = "Obligatorio")]
+        [RegularExpression(@"^[0-9]{8}$", ErrorMessage = "Solo permite 8 caracteres")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Ingresar el nro de documento")]
         public int? NroDocumento { get; set; }
         [Display(Name = "Nombres")]
-        [Required(ErrorMessage = "Obligatorio")]
+        [RegularExpression(@"^[\W\w ]{1,500}$", ErrorMessage = "Solo permite 500 caracteres")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Ingresar sus nombres")]
         public string Nombres { get; set; }
         [Display(Name = "Sexo")]
-        [Required(ErrorMessage = "Obligatorio")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Obligatorio")]
         public string Sexo { get; set; }
         [Display(Name = "Departamento")]
-        [Required(ErrorMessage = "Obligatorio")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Obligatorio")]
         public int? IdDepartamento { get; set; }
         [Display(Name = "Provincia")]
-        [Required(ErrorMessage = "Obligatorio")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Obligatorio")]
         public int? IdProvincia { get; set; }
         [Display(Name = "Distrito")]
-        [Required(ErrorMessage = "Obligatorio")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Obligatorio")]
         public int? IdDistrito { get; set; }
 
         public virtual Departamento IdDepartamentoNavigation { get; set; }

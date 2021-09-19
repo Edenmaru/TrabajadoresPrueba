@@ -124,12 +124,15 @@ namespace TrabajadoresPrueba.Controllers
         public IActionResult Editar(Trabajadores trabajador)
         {
             ViewBag.Departamentos = new SelectList(listaDepartamentos(), "Id", "NombreDepartamento");
-            using (var db = new TrabajadoresPruebaContext())
+            if (ModelState.IsValid)
             {
-                db.Trabajadores.Update(trabajador);
-                db.SaveChanges();
-            }
 
+                using (var db = new TrabajadoresPruebaContext())
+                {
+                    db.Trabajadores.Update(trabajador);
+                    db.SaveChanges();
+                }
+            }
             return PartialView("Editar", trabajador);
         }
 
